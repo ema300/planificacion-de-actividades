@@ -83,11 +83,34 @@
                 <h2>Historial de actividades</h2>
               
                 <div class="busqueda">
-                    <input type="text" id="search-input" placeholder="Buscar ...">
-                    <button id="search-button">Buscar</button>
-                    <button id="show-all-button">Mostrar Todos</button>
+           
                       <button id="vaciar" onclick="vaciarHistorial()">Vaciar Historial</button>
                 <button onclick="exportarAWord()">Exportar a Word</button>
+
+
+
+
+                <div class="filtros">
+                    <label for="filtro-colegio">Institución:</label>
+                    <select id="filtro-colegio">
+                        <!-- Aquí puedes agregar opciones de colegios -->
+                    </select>
+                <br>
+                    <label for="filtro-grado">Grado:</label>
+                    <select id="filtro-grado">
+                        <!-- Aquí puedes agregar opciones de grados -->
+                    </select>
+                <br><br>
+                    <label for="filtro-fecha-desde">Fecha Desde:</label>
+                    <input type="date" id="filtro-fecha-desde">
+                
+                    <label for="filtro-fecha-hasta">Fecha Hasta:</label>
+                    <input type="date" id="filtro-fecha-hasta">
+                
+                    <button onclick="cargarTabla()">Filtrar</button>
+                </div>
+                
+                
 
                 </div>
                 <div>

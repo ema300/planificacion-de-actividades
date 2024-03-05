@@ -18,35 +18,7 @@ function cargarTabla() {
         titleRow.insertCell().textContent = "Herram";
 
 
-        // Llenar la tabla con los datos del historial de actividades
-       // Llenar la tabla con los datos del historial de actividades
-// Llenar la tabla con los datos del historial de actividades
-/*historialActividades.forEach(function (actividad, index) {
-    var fila = tablaActividades.insertRow();
-    fila.insertCell().textContent = actividad.instituto;
-    fila.insertCell().textContent = actividad.fecha;
-    fila.insertCell().textContent = actividad.grado;
-    var actividadCell = fila.insertCell();
-    actividadCell.innerHTML = actividad.actividad.replace(/\n/g, "<br>"); // Reemplazar saltos de línea con etiquetas <br>
-    fila.insertCell().textContent = actividad.herramienta;
-
-    // Agregar botón "Editar" en la fila
-    var editarBtn = document.createElement('button');
-    editarBtn.textContent = 'Editar';
-    editarBtn.addEventListener('click', function() {
-        editarActividad(index); // Llamar a la función para editar la actividad correspondiente al índice
-    });
-    fila.insertCell().appendChild(editarBtn);
-
-    // Agregar botón "Eliminar" en la fila
-    var eliminarBtn = document.createElement('button');
-    eliminarBtn.textContent = 'Eliminar';
-    eliminarBtn.addEventListener('click', function() {
-        eliminarActividad(index); // Llamar a la función para eliminar la actividad correspondiente al índice
-    });
-    fila.insertCell().appendChild(eliminarBtn,editarBtn);
-});
-*/  
+ 
 // Llenar la tabla con los datos del historial de actividades
 historialActividades.forEach(function (actividad, index) {
     var fila = tablaActividades.insertRow();
@@ -178,94 +150,103 @@ document.getElementById("fecha").value = fechaFormateada;
 
 
 
+    // Función para agregar un nuevo grado al localStorage
+    function agregarGrado() {
+        var nuevoGrado = document.getElementById("nuevoGrado").value;
+        if (nuevoGrado) {
+            var selectGrado = document.getElementById("grado");
+            var option1 = document.createElement("option");
+            option1.text = nuevoGrado;
+            selectGrado.add(option1);
 
 
+            var selectFiltroGrado = document.getElementById("filtro-grado");
+            var option2 = document.createElement("option");
+            option2.text = nuevoGrado;
+            selectFiltroGrado.add(option2);
 
+            // Guardar el nuevo grado en localStorage
+            var gradosGuardados = JSON.parse(localStorage.getItem("grados")) || [];
+            gradosGuardados.push(nuevoGrado);
+            localStorage.setItem("grados", JSON.stringify(gradosGuardados));
 
+            // Limpiar el campo de entrada después de agregar
+            document.getElementById("nuevoGrado").value = "";
+        } else {
+            alert("Por favor ingrese un grado válido.");
+        }
+    }
 
+    // Función para agregar una nueva institución al localStorage
+    function agregarInstitucion() {
+        var nuevaInstitucion = document.getElementById("nuevaInstitucion").value;
+        if (nuevaInstitucion) {
+            var selectInstitucion = document.getElementById("institucion");
+            var option1 = document.createElement("option");
+            option1.text = nuevaInstitucion;
+            selectInstitucion.add(option1);
 
+            var selectFiltroColegio = document.getElementById("filtro-colegio");
+            var option2 = document.createElement("option");
+            option2.text = nuevaInstitucion;
+            selectFiltroColegio.add(option2);
 
+            // Guardar la nueva institución en localStorage
+            var institucionesGuardadas = JSON.parse(localStorage.getItem("instituciones")) || [];
+            institucionesGuardadas.push(nuevaInstitucion);
+            localStorage.setItem("instituciones", JSON.stringify(institucionesGuardadas));
 
+            // Limpiar el campo de entrada después de agregar
+            document.getElementById("nuevaInstitucion").value = "";
+        } else {
+            alert("Por favor ingrese una institución válida.");
+        }
+    }
 
-
-
-// Función para agregar un nuevo grado al localStorage
-function agregarGrado() {
-    var nuevoGrado = document.getElementById("nuevoGrado").value;
-    if (nuevoGrado) {
-        var selectGrado = document.getElementById("grado");
-        var option = document.createElement("option");
-        option.text = nuevoGrado;
-        selectGrado.add(option);
-        
-        // Guardar el nuevo grado en localStorage
+    // Función para cargar los grados e instituciones guardados en el localStorage al cargar la página
+    window.onload = function() {
+        // Cargar grados
         var gradosGuardados = JSON.parse(localStorage.getItem("grados")) || [];
-        gradosGuardados.push(nuevoGrado);
-        localStorage.setItem("grados", JSON.stringify(gradosGuardados));
-        
-        // Limpiar el campo de entrada después de agregar
-        document.getElementById("nuevoGrado").value = "";
-    } else {
-        alert("Por favor ingrese un grado válido.");
-    }
-}
+        var selectGrado1 = document.getElementById("grado");
+        var selectGrado2 = document.getElementById("filtro-grado");
+        for (var i = 0; i < gradosGuardados.length; i++) {
+            var option1 = document.createElement("option");
+            var option2 = document.createElement("option");
+            option1.text = gradosGuardados[i];
+            option2.text = gradosGuardados[i];
+            selectGrado1.add(option1);
+            selectGrado2.add(option2);
+        }
 
-// Función para agregar una nueva institución al localStorage
-function agregarInstitucion() {
-    var nuevaInstitucion = document.getElementById("nuevaInstitucion").value;
-    if (nuevaInstitucion) {
-        var selectInstitucion = document.getElementById("institucion");
-        var option = document.createElement("option");
-        option.text = nuevaInstitucion;
-        selectInstitucion.add(option);
-        
-        // Guardar la nueva institución en localStorage
+        // Cargar instituciones
         var institucionesGuardadas = JSON.parse(localStorage.getItem("instituciones")) || [];
-        institucionesGuardadas.push(nuevaInstitucion);
-        localStorage.setItem("instituciones", JSON.stringify(institucionesGuardadas));
-        
-        // Limpiar el campo de entrada después de agregar
-        document.getElementById("nuevaInstitucion").value = "";
-    } else {
-        alert("Por favor ingrese una institución válida.");
-    }
-}
+        var selectInstitucion1 = document.getElementById("institucion");
+        var selectInstitucion2 = document.getElementById("filtro-colegio");
+        for (var i = 0; i < institucionesGuardadas.length; i++) {
+            var option1 = document.createElement("option");
+            var option2 = document.createElement("option");
+            option1.text = institucionesGuardadas[i];
+            option2.text = institucionesGuardadas[i];
+            selectInstitucion1.add(option1);
+            selectInstitucion2.add(option2);
+        }
+    };
 
-// Función para cargar los grados e instituciones guardados en el localStorage al cargar la página
-window.onload = function() {
-    // Cargar grados
-    var gradosGuardados = JSON.parse(localStorage.getItem("grados")) || [];
-    var selectGrado = document.getElementById("grado");
-    for (var i = 0; i < gradosGuardados.length; i++) {
-        var option = document.createElement("option");
-        option.text = gradosGuardados[i];
-        selectGrado.add(option);
+
+
+
+    function vaciarGrados() {
+        localStorage.removeItem("grados");
+        document.getElementById("grado").innerHTML = "";
+        document.getElementById("filtro-grado").innerHTML = ""; // Vaciar el filtro de grado adicional
     }
     
-    // Cargar instituciones
-    var institucionesGuardadas = JSON.parse(localStorage.getItem("instituciones")) || [];
-    var selectInstitucion = document.getElementById("institucion");
-    for (var i = 0; i < institucionesGuardadas.length; i++) {
-        var option = document.createElement("option");
-        option.text = institucionesGuardadas[i];
-        selectInstitucion.add(option);
+    function vaciarInstituciones() {
+        localStorage.removeItem("instituciones");
+        document.getElementById("institucion").innerHTML = "";
+        document.getElementById("filtro-colegio").innerHTML = ""; // Vaciar el filtro de institución adicional
     }
-};
-
-
-
-
-
-
-function vaciarGrados() {
-    localStorage.removeItem("grados");
-    document.getElementById("grado").innerHTML = "";
-}
-function vaciarInstituciones() {
-    localStorage.removeItem("instituciones");
-    document.getElementById("institucion").innerHTML = "";
-}
-
+    
 
 
 function exportarAWord() {
@@ -380,4 +361,6 @@ window.onclick = function(event) {
   }
 }
 
-
+function refrescarPagina() {
+    location.reload();
+}

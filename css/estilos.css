@@ -267,6 +267,26 @@ select#institucion {
   font-size: 1em;
 }
 
+select#filtro-grado {
+  margin: 0em 1em 0em 0.5em;
+  padding: 1em 1em 1em 1em;
+  background-color: white;
+  border-radius: 5px;
+  outline: none;
+  border: 0px;
+  font-size: 1em;
+}
+
+select#filtro-colegio {
+  margin: 0em 1em 0em 0.5em;
+  padding: 1em 1em 1em 1em;
+  background-color: white;
+  border-radius: 5px;
+  outline: none;
+  border: 0px;
+  font-size: 1em;
+}
+
 .copyright {
   text-align: right;
   color: rgb(226, 226, 226);
