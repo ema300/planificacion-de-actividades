@@ -111,11 +111,41 @@ table {
 }
 
 th, td {
-    padding: 3px;
+    padding: 2px;
     text-align: center;
-    border: 1px solid #ccc;
-    font-size: 1.8em;
+    border: 1px solid #110000;
+    font-size: 1.7em;
+    max-height: 100px; /* Altura máxima para las celdas */
+    overflow: auto; /* Añadimos desplazamiento si se excede la altura */
+    word-break: break-all; /* Rompe palabras largas para ajustarse */
 }
+
+/* Altura específica para cada fila */
+#tabla-actividades th:nth-child(4), #tabla-actividades td:nth-child(4) {
+    width: 30%;
+    text-align: left;
+}
+#tabla-actividades th:nth-child(6), #tabla-actividades td:nth-child(6) {
+    width: 13%;
+    /* text-align: left; */
+}
+#tabla-actividades th:nth-child(2), #tabla-actividades td:nth-child(2) {
+    width: 30%;
+    text-align: left;
+}
+
+#tabla-actividades th:nth-child(2), #tabla-actividades td:nth-child(2) {
+    width: 12%;
+}
+
+#tabla-actividades th:nth-child(3), #tabla-actividades td:nth-child(3) {
+    width: 12%;
+}
+
+#tabla-actividades th:nth-child(1), #tabla-actividades td:nth-child(1) {
+    width: 12%;
+}
+
 #actividad {
     padding: 1em 1em 1em 1em;
     margin: 0em 0em 0em 0em;
@@ -133,18 +163,7 @@ th, td {
 #herramienta {}
 
 
-#tabla-actividades th {
-    text-align: center;
-    /* Centrar el contenido de todas las celdas de encabezado */
-}
 
-#tabla-actividades th:nth-child(4),
-#tabla-actividades td:nth-child(4) {
-    width: 30%;
-    /* Ancho deseado para la columna "Actividad" */
-    text-align: left;
-    /* Alinear el texto a la derecha */
-}
 
 
 
