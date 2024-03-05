@@ -9,6 +9,7 @@ body {
   flex-direction: column;
   align-content: center;
   align-items: center;
+  font-size: 1.2em;
 }
 
 h1 {
@@ -17,19 +18,18 @@ h1 {
 
 .contenido {
   display: flex;
-  margin: 0em 4% 0em 4%;
-  padding: 1em;
+  /* margin: 0em 4% 0em 4%; */
+  /* padding: 0em; */
   background-color: #091725;
   flex-direction: column;
   border-radius: 10px;
-  align-items: center;
-  align-content: center;
   flex-wrap: nowrap;
+  align-content: center;
 }
 
 #ingresar {
   background-color: rgb(226, 226, 226);
-  padding: 0em 2em 1em;
+  padding: 1em 1em 1em 1em;
   border-radius: 8px;
 }
 
@@ -37,11 +37,6 @@ h1 {
   width: 94%;
   background-color: rgb(226, 226, 226);
   padding: 1em;
-  border-radius: 8px;
-}
-
-#formulario-producto {
-  padding: 0em 2em 1em;
   border-radius: 8px;
 }
 
@@ -64,15 +59,33 @@ h1 {
 
 label {
   font-weight: bold;
+  font-size: 1.4em;
 }
 
-input[type=text], input[type=number], input[type=date] {
-  padding: 10px;
-  width: 97%;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
+input[type=text],
+input[type=number],
+input[type=date] {
+  margin: 0em 0em 0em 0em;
+  padding: 1em 1em 1em 1em;
+  width: 87%;
+  border: 0px solid #ccc;
   border-radius: 5px;
-  font-size: 1em;
+  font-size: 1.3em;
+  outline: none;
+  resize: none;
+}
+
+#search-input {
+  width: 84%;
+  margin: 0em 0em 0.3em 0em;
+}
+
+#fecha {
+  font-size: 1.3em;
+}
+
+#guardar {
+  width: 100%;
 }
 
 table {
@@ -84,53 +97,51 @@ table {
 }
 
 th, td {
-  padding: 10px;
+  padding: 3px;
   text-align: center;
   border: 1px solid #ccc;
+  font-size: 1.8em;
 }
 
 #actividad {
   padding: 1em 1em 1em 1em;
   margin: 0em 0em 0em 0em;
+  height: 22em;
   border: 0px;
-  width: 100%;
   outline: none;
   resize: none;
+  width: 88%;
   border-radius: 10px;
-}
-
-input[type=text]#nuevoGrado {
-  padding: 10px;
-  width: 97%;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
+  font-size: 1.6em;
 }
 
 #tabla-actividades th {
-  text-align: center; /* Centrar el contenido de todas las celdas de encabezado */
+  text-align: center;
+  /* Centrar el contenido de todas las celdas de encabezado */
 }
 
 #tabla-actividades th:nth-child(4),
 #tabla-actividades td:nth-child(4) {
-  width: 30%; /* Ancho deseado para la columna "Actividad" */
-  text-align: left; /* Alinear el texto a la derecha */
+  width: 30%;
+  /* Ancho deseado para la columna "Actividad" */
+  text-align: left;
+  /* Alinear el texto a la derecha */
 }
 
 button {
   background-color: rgb(0, 0, 0);
   color: rgb(226, 226, 226);
   margin: 5px;
-  padding: 10px 20px;
+  padding: 20px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1.3em;
 }
 
 .editar-btn {
-  background-color: #4CAF50; /* Verde */
+  background-color: #4CAF50;
+  /* Verde */
   color: white;
   padding: 8px 16px;
   border: none;
@@ -149,24 +160,24 @@ button {
   border-radius: 4px;
 }
 
-#btn-vaciar-tabla {
-  background-color: rgb(0, 0, 0);
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  margin: 5px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
 #btn-vaciar-grado {
   background-color: rgb(0, 0, 0);
   color: white;
-  padding: 8px 16px;
-  border: none;
-  margin: 5px;
-  cursor: pointer;
-  border-radius: 4px;
+  /* padding: 8px 16px; */
+  /* border: none; */
+  /* margin: 5px; */
+  /* cursor: pointer; */
+  /* border-radius: 4px; */
+}
+
+#btn-vaciar-institucion {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  /* padding: 8px 16px; */
+  /* border: none; */
+  /* margin: 5px; */
+  /* cursor: pointer; */
+  /* border-radius: 4px; */
 }
 
 .modal-content {
@@ -200,7 +211,7 @@ button {
   /* margin: 13%; */
   /* padding: 20px; */
   /* border: 1px solid #888; */
-  width: 90%;
+  width: 87%;
   /* max-width: 600px; */
 }
 
@@ -216,6 +227,26 @@ button {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+select#grado {
+  margin: 0em 1em 0em 0.5em;
+  padding: 1em 1em 1em 1em;
+  background-color: white;
+  border-radius: 5px;
+  outline: none;
+  border: 0px;
+  font-size: 1em;
+}
+
+select#institucion {
+  margin: 0em 1em 0em 0.5em;
+  padding: 1em 1em 1em 1em;
+  background-color: white;
+  border-radius: 5px;
+  outline: none;
+  border: 0px;
+  font-size: 1em;
 }
 
 .copyright {

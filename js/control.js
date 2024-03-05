@@ -60,7 +60,7 @@ historialActividades.forEach(function (actividad, index) {
 // Agregar botón "Editar" y "Eliminar" en la misma celda
 var accionesCell = fila.insertCell();
 var editarBtn = document.createElement('button');
-editarBtn.textContent = 'Editar';
+editarBtn.textContent = 'E';
 editarBtn.className = 'editar-btn'; // Asignar la clase CSS 'editar-btn' al botón de editar
 editarBtn.addEventListener('click', function() {
     editarActividad(index); // Llamar a la función para editar la actividad correspondiente al índice
@@ -68,7 +68,7 @@ editarBtn.addEventListener('click', function() {
 accionesCell.appendChild(editarBtn);
 
 var eliminarBtn = document.createElement('button');
-eliminarBtn.textContent = 'Eliminar';
+eliminarBtn.textContent = 'X';
 eliminarBtn.className = 'eliminar-btn'; // Asignar la clase CSS 'eliminar-btn' al botón de eliminar
 eliminarBtn.addEventListener('click', function() {
     eliminarActividad(index); // Llamar a la función para eliminar la actividad correspondiente al índice
