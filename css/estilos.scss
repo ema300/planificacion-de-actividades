@@ -310,7 +310,12 @@ select#institucion {
 
 
 
-
+.long-text {
+    white-space: nowrap; /* Evita que el texto se divida en múltiples líneas */
+    overflow: hidden; /* Oculta el texto que sobrepasa el ancho de la celda */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) si el texto es demasiado largo */
+    cursor: pointer; /* Cambia el cursor a un puntero cuando pasas sobre la celda */
+}
 
 
 /*escritorio*/

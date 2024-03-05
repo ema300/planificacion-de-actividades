@@ -11,11 +11,11 @@ function cargarTabla() {
     if (historialActividades.length > 0) {
         // Agregar la fila de títulos a la tabla
         var titleRow = tablaActividades.insertRow();
-        titleRow.insertCell().textContent = "Institución";
+        titleRow.insertCell().textContent = "Inst";
         titleRow.insertCell().textContent = "Fecha";
         titleRow.insertCell().textContent = "Grado";
         titleRow.insertCell().textContent = "Actividad";
-        titleRow.insertCell().textContent = "Herramienta";
+        titleRow.insertCell().textContent = "Herram";
 
 
         // Llenar la tabla con los datos del historial de actividades
@@ -379,3 +379,5 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+
