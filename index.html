@@ -15,25 +15,25 @@
             <button id="openModalBtn">Ingresar</button>
 
             <div id="myModal" class="modal">
-              <div class="modal-content">
-                <span class="close">&times;</span>
-                <div id="bloque1">
-                  <button id="btn-vaciar-tabla" onclick="vaciarInstituciones()">Vaciar Instituciones</button>
-                  <button id="btn-vaciar-grado" onclick="vaciarGrados()">Vaciar Grados</button> <br><br>
-            
-                  <label for="nuevoGrado">Nuevo Grado:</label>
-                  <input type="text" id="nuevoGrado">
-            
-                  <button onclick="agregarGrado()">Agregar Grado</button> <br><br>
-            
-                  <label for="nuevaInstitucion">Nueva Institución:</label>
-                  <input type="text" id="nuevaInstitucion">
-            
-                  <button onclick="agregarInstitucion()">Agregar Institución</button>
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="bloque1">
+                        <button id="btn-vaciar-tabla" onclick="vaciarInstituciones()">Vaciar Instituciones</button>
+                        <button id="btn-vaciar-grado" onclick="vaciarGrados()">Vaciar Grados</button> <br><br>
+
+                        <label for="nuevoGrado">Nuevo Grado:</label>
+                        <input type="text" id="nuevoGrado">
+
+                        <button onclick="agregarGrado()">Agregar Grado</button> <br><br>
+
+                        <label for="nuevaInstitucion">Nueva Institución:</label>
+                        <input type="text" id="nuevaInstitucion">
+
+                        <button onclick="agregarInstitucion()">Agregar Institución</button>
+                    </div>
                 </div>
-              </div>
             </div>
-            
+
 
             <div id="ingresar">
 
@@ -81,46 +81,48 @@
             <hr>
             <div id="historial">
                 <h2>Historial de actividades</h2>
-              
+
                 <div class="busqueda">
-           
-                      <button id="vaciar" onclick="vaciarHistorial()">Vaciar Historial</button>
-                <button onclick="exportarAWord()">Exportar a Word</button>
+
+                    <button id="vaciar" onclick="vaciarHistorial()">Vaciar Historial</button>
+                    <button onclick="exportarAWord()">Exportar a Word</button>
 
 
 
 
-                <div class="filtros">
-                    <label for="filtro-colegio">Institución:</label>
-                    <select id="filtro-colegio">
-                        <!-- Aquí puedes agregar opciones de colegios -->
-                    </select>
-                <br>
-                    <label for="filtro-grado">Grado:</label>
-                    <select id="filtro-grado">
-                        <!-- Aquí puedes agregar opciones de grados -->
-                    </select>
-                <br><br>
-                    <label for="filtro-fecha-desde">Fecha Desde:</label>
-                    <input type="date" id="filtro-fecha-desde">
-                
-                    <label for="filtro-fecha-hasta">Fecha Hasta:</label>
-                    <input type="date" id="filtro-fecha-hasta">
-                
-                    <button onclick="cargarTabla()">Filtrar</button>
-                </div>
-                
-                
+                    <div class="filtros">
+                        <label for="filtro-colegio">Institución:</label>
+                        <select id="filtro-colegio">
+                            <!-- Aquí puedes agregar opciones de colegios -->
+                        </select>
+                        <br>
+                        <label for="filtro-grado">Grado:</label>
+                        <select id="filtro-grado">
+                            <!-- Aquí puedes agregar opciones de grados -->
+                        </select>
+                        <br><br>
+                        <label for="filtro-fecha-desde">Fecha Desde:</label>
+                        <input type="date" id="filtro-fecha-desde">
+
+                        <label for="filtro-fecha-hasta">Fecha Hasta:</label>
+                        <input type="date" id="filtro-fecha-hasta">
+
+                        <button onclick="filtrar()">Filtrar</button>
+                        <button onclick="ordenar()">Ordenar</button>
+                        <button onclick="verTodos()">Ver Todos</button>
+                    </div>
+
+
 
                 </div>
                 <div>
                     <table id="tabla-actividades">
                         <tr>
-                            <th>Instituto</th>
+                            <th>Inst.</th>
                             <th>Fecha</th>
                             <th>Grado</th>
                             <th>Actividad</th>
-                            <th>Herramienta</th>
+                            <th>Herram.</th>
 
                         </tr>
                     </table>
