@@ -35,8 +35,6 @@ function cargarTabla() {
     });
 }
 
-// Llamamos a la función cargarTabla para llenar la tabla al cargar la página
-cargarTabla();
 
 
 // Llamar a la función para cargar y mostrar la tabla cuando la página se cargue
@@ -93,7 +91,7 @@ document.getElementById('guardar').addEventListener('click', function () {
 // Función para vaciar el historial de actividades
 function vaciarHistorial() {
     localStorage.removeItem('historialActividades'); // Eliminar el historial del localStorage
-    cargarTabla(); // Volver a cargar y mostrar la tabla (que ahora estará vacía)
+    refrescarPagina();
 }
 
 
@@ -245,10 +243,39 @@ function vaciarInstituciones() {
 
 
 function exportarAWord() {
-    var tablaHtml = document.getElementById('tabla-actividades').outerHTML;
-    var blob = new Blob(['<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Documento Word</title></head><body>' + tablaHtml + '</body></html>'], {
+    // Obtener la tabla actual después de aplicar los filtros
+    var tablaOriginal = document.getElementById('tabla-actividades');
+    var filasOriginal = tablaOriginal.querySelectorAll('tr');
+
+    // Crear una nueva tabla para almacenar las filas filtradas
+    var tablaFiltrada = document.createElement('table');
+    tablaFiltrada.innerHTML = "<thead>" + filasOriginal[0].innerHTML + "</thead><tbody></tbody>";
+
+    // Obtener las filas que cumplen con los filtros de fecha
+    var filasFiltradas = tablaFiltrada.querySelector('tbody');
+    for (var i = 1; i < filasOriginal.length; i++) {
+        var fecha = filasOriginal[i].querySelector('td:nth-child(2)').textContent;
+        // Convertir la fecha en un objeto Date para compararla con los filtros de fecha
+        var fechaActividad = new Date(fecha);
+        var fechaDesde = document.getElementById('filtro-fecha-desde').value;
+        var fechaHasta = document.getElementById('filtro-fecha-hasta').value;
+        if ((fechaDesde && fechaActividad < new Date(fechaDesde)) || (fechaHasta && fechaActividad > new Date(fechaHasta))) {
+            // La fila no cumple con los filtros, no la agregamos a la tabla filtrada
+            continue;
+        }
+        // La fila cumple con los filtros, la agregamos a la tabla filtrada
+        tablaFiltrada.querySelector('tbody').appendChild(filasOriginal[i].cloneNode(true));
+    }
+
+    // Convertir la tabla filtrada a HTML
+    var tablaFiltradaHtml = tablaFiltrada.outerHTML;
+
+    // Crear el blob con la tabla filtrada
+    var blob = new Blob(['<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Documento Word</title></head><body>' + tablaFiltradaHtml + '</body></html>'], {
         type: 'application/msword'
     });
+
+    // Crear un enlace para descargar el archivo
     var link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "documento_word.doc";
@@ -256,7 +283,6 @@ function exportarAWord() {
     link.click();
     document.body.removeChild(link);
 }
-
 
 // Función para editar una actividad
 function editarActividad(index) {
@@ -399,8 +425,33 @@ function verTodos() {
 function filtrar() {
     var filtroInstituto = document.getElementById("filtro-colegio").value;
     var filtroGrado = document.getElementById("filtro-grado").value;
-    var filtroFechaDesde = document.getElementById("filtro-fecha-desde").value;
-    var filtroFechaHasta = document.getElementById("filtro-fecha-hasta").value;
+    var fechaD = document.getElementById("filtro-fecha-desde").value;
+    var fechaH = document.getElementById("filtro-fecha-hasta").value;
+
+
+
+
+  //fecha desde
+    var partesFechaD = fechaD.split('-');
+    var diaD = partesFechaD[2];
+    var mesD = partesFechaD[1];
+    var anioD = partesFechaD[0];
+
+    // Formatear la fecha en el formato dd-mm-aaaa
+    var filtroFechaDesde = diaD + '-' + mesD + '-' + anioD;
+ //fecha hasta
+
+    var partesFechaH = fechaH.split('-');
+    var diaH = partesFechaH[2];
+    var mesH = partesFechaH[1];
+    var anioH = partesFechaH[0];
+
+    // Formatear la fecha en el formato dd-mm-aaaa
+    var filtroFechaHasta = diaH + '-' + mesH + '-' + anioH;
+   
+
+
+
 
     var actividadesFiltradas = []; // Arreglo para almacenar las actividades filtradas
 
