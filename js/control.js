@@ -11,41 +11,40 @@ function cargarTabla() {
     var historialActividades = JSON.parse(localStorage.getItem('historialActividades')) || [];
 
     // Llenar la tabla con los datos del historial de actividades
-    historialActividades.forEach(function (actividad, index) {
-        var fila = tablaActividades.insertRow();
-        fila.setAttribute('data-id', index + 1); // Asignar el índice como identificador único, +1 para evitar conflictos con la primera fila
+    // Llenar la tabla con los datos del historial de actividades
+historialActividades.forEach(function (actividad, index) {
+    var fila = tablaActividades.insertRow();
+    fila.setAttribute('data-id', index); // Asignar el índice real como identificador único
 
-        fila.insertCell().textContent = actividad.instituto;
-        fila.insertCell().textContent = actividad.fecha;
-        fila.insertCell().textContent = actividad.grado;
-        var actividadCell = fila.insertCell();
-        actividadCell.innerHTML = actividad.actividad.replace(/\n/g, "<br>"); // Reemplazar saltos de línea con etiquetas <br>
-        fila.insertCell().textContent = actividad.herramienta;
+    fila.insertCell().textContent = actividad.instituto;
+    fila.insertCell().textContent = actividad.fecha;
+    fila.insertCell().textContent = actividad.grado;
+    var actividadCell = fila.insertCell();
+    actividadCell.innerHTML = actividad.actividad.replace(/\n/g, "<br>"); // Reemplazar saltos de línea con etiquetas <br>
+    fila.insertCell().textContent = actividad.herramienta;
 
-        // Agregar botón "Editar" y "Eliminar" en la misma celda
-        var accionesCell = fila.insertCell();
-        var editarBtn = document.createElement('button');
-        editarBtn.textContent = 'E';
-        editarBtn.className = 'editar-btn'; // Asignar la clase CSS 'editar-btn' al botón de editar
-        editarBtn.addEventListener('click', function () {
-            var rowId = parseInt(fila.getAttribute('data-id'));
-            editarActividad(rowId); // Llamar a la función para editar la actividad correspondiente al identificador único
-        });
-        accionesCell.appendChild(editarBtn);
-
-        var eliminarBtn = document.createElement('button');
-        eliminarBtn.textContent = 'X';
-        eliminarBtn.className = 'eliminar-btn'; // Asignar la clase CSS 'eliminar-btn' al botón de eliminar
-        eliminarBtn.addEventListener('click', function () {
-            var rowId = parseInt(fila.getAttribute('data-id'));
-            eliminarActividad(rowId); // Llamar a la función para eliminar la actividad correspondiente al identificador único
-        });
-        accionesCell.appendChild(eliminarBtn);
+    // Agregar botón "Editar" y "Eliminar" en la misma celda
+    var accionesCell = fila.insertCell();
+    var editarBtn = document.createElement('button');
+    editarBtn.textContent = 'E';
+    editarBtn.className = 'editar-btn'; // Asignar la clase CSS 'editar-btn' al botón de editar
+    editarBtn.addEventListener('click', function () {
+        var rowId = parseInt(fila.getAttribute('data-id')); // Obtener el identificador único de la fila
+        editarActividad(rowId);
     });
+    accionesCell.appendChild(editarBtn);
+
+    var eliminarBtn = document.createElement('button');
+    eliminarBtn.textContent = 'X';
+    eliminarBtn.className = 'eliminar-btn'; // Asignar la clase CSS 'eliminar-btn' al botón de eliminar
+    eliminarBtn.addEventListener('click', function () {
+        var rowId = parseInt(fila.getAttribute('data-id')); // Obtener el identificador único de la fila
+        eliminarActividad(rowId);
+    });
+    accionesCell.appendChild(eliminarBtn);
+});
 }
-
-
-// Función para editar una actividad
+// Función para editar una actividad por su identificador único
 function editarActividad(rowId) {
     // Obtener el historial de actividades del localStorage
     var historialActividades = JSON.parse(localStorage.getItem('historialActividades')) || [];
@@ -60,21 +59,12 @@ function editarActividad(rowId) {
         document.getElementById('fecha').value = actividad.fecha;
         document.getElementById('actividad').value = actividad.actividad;
         document.getElementById('herramienta').value = actividad.herramienta;
-
-        // Eliminar la actividad del historial utilizando el identificador único
-        historialActividades.splice(rowId, 1);
-
-        // Actualizar el historial en el localStorage
-        localStorage.setItem('historialActividades', JSON.stringify(historialActividades));
-
-        // Volver a cargar y mostrar la tabla
-        cargarTabla();
     } else {
         console.log("Actividad no encontrada");
     }
 }
 
-// Función para eliminar una actividad
+// Función para eliminar una actividad por su identificador único
 function eliminarActividad(rowId) {
     // Obtener el historial de actividades del localStorage
     var historialActividades = JSON.parse(localStorage.getItem('historialActividades')) || [];
@@ -88,9 +78,6 @@ function eliminarActividad(rowId) {
     // Volver a cargar y mostrar la tabla
     cargarTabla();
 }
-
-// Resto del código...
-
 
 // Llamar a la función para cargar y mostrar la tabla cuando la página se cargue
 document.addEventListener("DOMContentLoaded", function () {
