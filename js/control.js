@@ -1,6 +1,11 @@
 function cargarTabla() {
     // Limpiar la tabla de actividades
     var tablaActividades = document.getElementById('tabla-actividades');
+    // Guardar la primera fila para no eliminarla
+    var primeraFila = tablaActividades.rows[0];
+    tablaActividades.innerHTML = ''; // Limpiar la tabla antes de cargar nuevas filas
+    // Insertar la primera fila de nuevo
+    tablaActividades.appendChild(primeraFila);
 
     // Obtener el historial de actividades del localStorage
     var historialActividades = JSON.parse(localStorage.getItem('historialActividades')) || [];
@@ -8,6 +13,8 @@ function cargarTabla() {
     // Llenar la tabla con los datos del historial de actividades
     historialActividades.forEach(function (actividad, index) {
         var fila = tablaActividades.insertRow();
+        fila.setAttribute('data-id', index + 1); // Asignar el índice como identificador único, +1 para evitar conflictos con la primera fila
+
         fila.insertCell().textContent = actividad.instituto;
         fila.insertCell().textContent = actividad.fecha;
         fila.insertCell().textContent = actividad.grado;
@@ -21,7 +28,8 @@ function cargarTabla() {
         editarBtn.textContent = 'E';
         editarBtn.className = 'editar-btn'; // Asignar la clase CSS 'editar-btn' al botón de editar
         editarBtn.addEventListener('click', function () {
-            editarActividad(index); // Llamar a la función para editar la actividad correspondiente al índice
+            var rowId = parseInt(fila.getAttribute('data-id'));
+            editarActividad(rowId); // Llamar a la función para editar la actividad correspondiente al identificador único
         });
         accionesCell.appendChild(editarBtn);
 
@@ -29,12 +37,59 @@ function cargarTabla() {
         eliminarBtn.textContent = 'X';
         eliminarBtn.className = 'eliminar-btn'; // Asignar la clase CSS 'eliminar-btn' al botón de eliminar
         eliminarBtn.addEventListener('click', function () {
-            eliminarActividad(index); // Llamar a la función para eliminar la actividad correspondiente al índice
+            var rowId = parseInt(fila.getAttribute('data-id'));
+            eliminarActividad(rowId); // Llamar a la función para eliminar la actividad correspondiente al identificador único
         });
         accionesCell.appendChild(eliminarBtn);
     });
 }
 
+
+// Función para editar una actividad
+function editarActividad(rowId) {
+    // Obtener el historial de actividades del localStorage
+    var historialActividades = JSON.parse(localStorage.getItem('historialActividades')) || [];
+
+    // Obtener la actividad correspondiente al identificador único
+    var actividad = historialActividades[rowId];
+
+    if (actividad) {
+        // Llenar el formulario de entrada con los datos de la actividad
+        document.getElementById('institucion').value = actividad.instituto;
+        document.getElementById('grado').value = actividad.grado;
+        document.getElementById('fecha').value = actividad.fecha;
+        document.getElementById('actividad').value = actividad.actividad;
+        document.getElementById('herramienta').value = actividad.herramienta;
+
+        // Eliminar la actividad del historial utilizando el identificador único
+        historialActividades.splice(rowId, 1);
+
+        // Actualizar el historial en el localStorage
+        localStorage.setItem('historialActividades', JSON.stringify(historialActividades));
+
+        // Volver a cargar y mostrar la tabla
+        cargarTabla();
+    } else {
+        console.log("Actividad no encontrada");
+    }
+}
+
+// Función para eliminar una actividad
+function eliminarActividad(rowId) {
+    // Obtener el historial de actividades del localStorage
+    var historialActividades = JSON.parse(localStorage.getItem('historialActividades')) || [];
+
+    // Eliminar la actividad del historial utilizando el identificador único
+    historialActividades.splice(rowId, 1);
+
+    // Actualizar el historial en el localStorage
+    localStorage.setItem('historialActividades', JSON.stringify(historialActividades));
+
+    // Volver a cargar y mostrar la tabla
+    cargarTabla();
+}
+
+// Resto del código...
 
 
 // Llamar a la función para cargar y mostrar la tabla cuando la página se cargue
@@ -50,8 +105,6 @@ document.getElementById('guardar').addEventListener('click', function () {
     var actividad = document.getElementById('actividad').value;
     var herramienta = document.getElementById('herramienta').value;
 
-
-
     var partesFecha = fecha.split('-');
     var dia = partesFecha[2];
     var mes = partesFecha[1];
@@ -60,17 +113,13 @@ document.getElementById('guardar').addEventListener('click', function () {
     // Formatear la fecha en el formato dd-mm-aaaa
     var fechaFormateada = dia + '-' + mes + '-' + año;
 
-    // Aquí puedes agregar la lógica para guardar las imágenes si es necesario
-
     // Crear un objeto con los datos de la actividad
     var actividadData = {
         instituto: instituto,
         grado: grado,
         fecha: fechaFormateada,
         actividad: actividad,
-        herramienta: herramienta,
-
-        // Puedes agregar aquí las imágenes si es necesario
+        herramienta: herramienta
     };
 
     // Obtener el historial de actividades del localStorage
@@ -78,6 +127,13 @@ document.getElementById('guardar').addEventListener('click', function () {
 
     // Agregar la nueva actividad al historial
     historialActividades.push(actividadData);
+
+    // Ordenar las actividades por fecha en orden inverso (de la más reciente a la más antigua)
+    historialActividades.sort(function (a, b) {
+        var fechaA = new Date(a.fecha);
+        var fechaB = new Date(b.fecha);
+        return fechaB - fechaA; // Cambio de fechaA - fechaB a fechaB - fechaA
+    });
 
     // Guardar el historial actualizado en el localStorage
     localStorage.setItem('historialActividades', JSON.stringify(historialActividades));
@@ -388,29 +444,7 @@ function refrescarPagina() {
 
 
 
-// Función para ordenar las actividades
-function ordenar() {
-    var tablaActividades = document.getElementById("tabla-actividades");
-    var tbody = tablaActividades.querySelector("tbody");
-    var rows = Array.from(tbody.querySelectorAll("tr"));
 
-    // Ordenar las filas de la tabla
-    rows.sort(function (a, b) {
-        var fechaA = new Date(a.cells[1].textContent);
-        var fechaB = new Date(b.cells[1].textContent);
-        return fechaA - fechaB;
-    });
-
-    // Eliminar las filas de la tabla
-    rows.forEach(function (row) {
-        tbody.removeChild(row);
-    });
-
-    // Agregar las filas ordenadas de nuevo a la tabla
-    rows.forEach(function (row) {
-        tbody.appendChild(row);
-    });
-}
 
 // Función para mostrar todas las actividades
 function verTodos() {
@@ -428,31 +462,6 @@ function filtrar() {
     var fechaD = document.getElementById("filtro-fecha-desde").value;
     var fechaH = document.getElementById("filtro-fecha-hasta").value;
 
-
-
-
-  //fecha desde
-    var partesFechaD = fechaD.split('-');
-    var diaD = partesFechaD[2];
-    var mesD = partesFechaD[1];
-    var anioD = partesFechaD[0];
-
-    // Formatear la fecha en el formato dd-mm-aaaa
-    var filtroFechaDesde = diaD + '-' + mesD + '-' + anioD;
- //fecha hasta
-
-    var partesFechaH = fechaH.split('-');
-    var diaH = partesFechaH[2];
-    var mesH = partesFechaH[1];
-    var anioH = partesFechaH[0];
-
-    // Formatear la fecha en el formato dd-mm-aaaa
-    var filtroFechaHasta = diaH + '-' + mesH + '-' + anioH;
-   
-
-
-
-
     var actividadesFiltradas = []; // Arreglo para almacenar las actividades filtradas
 
     // Obtener todas las actividades del localStorage
@@ -462,8 +471,14 @@ function filtrar() {
     actividadesFiltradas = historialActividades.filter(function (actividad) {
         var cumpleFiltroInstituto = filtroInstituto === "" || actividad.instituto === filtroInstituto;
         var cumpleFiltroGrado = filtroGrado === "" || actividad.grado === filtroGrado;
-        var cumpleFiltroFechaDesde = filtroFechaDesde === "" || actividad.fecha >= filtroFechaDesde;
-        var cumpleFiltroFechaHasta = filtroFechaHasta === "" || actividad.fecha <= filtroFechaHasta;
+        
+        // Convertir fechas de formato dd-mm-aaaa a objetos de fecha para comparación
+        var fechaActividad = new Date(actividad.fecha.split("-").reverse().join("-"));
+        var fechaDesde = fechaD ? new Date(fechaD.split("-").reverse().join("-")) : null;
+        var fechaHasta = fechaH ? new Date(fechaH.split("-").reverse().join("-")) : null;
+
+        var cumpleFiltroFechaDesde = !fechaDesde || fechaActividad >= fechaDesde;
+        var cumpleFiltroFechaHasta = !fechaHasta || fechaActividad <= fechaHasta;
 
         return cumpleFiltroInstituto && cumpleFiltroGrado && cumpleFiltroFechaDesde && cumpleFiltroFechaHasta;
     });
@@ -472,19 +487,25 @@ function filtrar() {
     mostrarActividades(actividadesFiltradas);
 }
 
-// Función para mostrar actividades en la tabla
 function mostrarActividades(actividades) {
     var tabla = document.getElementById("tabla-actividades");
-    var tbody = tabla.querySelector("tbody");
-    tbody.innerHTML = ""; // Limpiar el contenido existente de la tabla
+    var primeraFila = tabla.rows[0]; // Guardar la primera fila
 
-    actividades.forEach(function (actividad) {
+    // Limpiar la tabla, excepto la primera fila
+    while (tabla.rows.length > 1) {
+        tabla.deleteRow(1);
+    }
+
+    actividades.forEach(function (actividad, index) {
         var fila = document.createElement("tr");
         fila.innerHTML = "<td>" + actividad.instituto + "</td>" +
             "<td>" + actividad.fecha + "</td>" +
             "<td>" + actividad.grado + "</td>" +
             "<td>" + actividad.actividad + "</td>" +
             "<td>" + actividad.herramienta + "</td>";
-        tbody.appendChild(fila);
+        tabla.appendChild(fila); // Insertar la fila al final de la tabla
     });
+
+    // Insertar la primera fila de nuevo al principio
+    tabla.insertBefore(primeraFila, tabla.firstChild);
 }
